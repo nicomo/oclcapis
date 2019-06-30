@@ -2,6 +2,8 @@
 
 A Go client for _some_ of the _free, public_ Web Services available from OCLC.
 
+See the documentation for this package at <https://godoc.org/github.com/nicomo/oclcapis>
+
 OCLC offers many web services not implemented here, some only accessible to member libraries. The web services are documented at <https://platform.worldcat.org/api-explorer/apis>
 
 ## Status
@@ -10,7 +12,9 @@ This project is experimental/personal, use at your own risk.
 
 ## Covered
 
-- viafGetData uses [ViafGetDataInFormat](https://platform.worldcat.org/api-explorer/apis/VIAF/AuthorityCluster/GetData): to retrieve extra identifiers based on the supplied VIAF Identifier. For example <http://www.viaf.org/viaf/102333412/viaf.json>
+- ViafGetIDs finds all source IDs, e.g. LC, DNB, WKP, etc. from a VIAF ID
+- ViafGetLCN finds a Library of Congress ID from a VIAF ID
+- ViafGetWKP finds a Wikidata ID from a VIAF ID
 
 ## Not covered
 
