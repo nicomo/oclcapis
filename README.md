@@ -10,7 +10,7 @@ This project is experimental/personal, use at your own risk.
 
 ## Covered
 
-- GetViafIdentities uses [ViafGetDataInFormat](https://platform.worldcat.org/api-explorer/apis/VIAF/AuthorityCluster/GetData): to retrieve extra identifiers based on the supplied VIAF Identifier. For example <http://www.viaf.org/viaf/102333412/viaf.json>
+- viafGetData uses [ViafGetDataInFormat](https://platform.worldcat.org/api-explorer/apis/VIAF/AuthorityCluster/GetData): to retrieve extra identifiers based on the supplied VIAF Identifier. For example <http://www.viaf.org/viaf/102333412/viaf.json>
 
 ## Not covered
 
