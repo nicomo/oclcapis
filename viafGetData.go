@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"log"
 	"strings"
 )
 
@@ -40,22 +39,25 @@ type XLinks struct {
 // with a VIAF ID and retrieves
 // extra information from the record
 func viafGetData(input string) (ViafData, error) {
+
+	// will store result
+	var vData ViafData
+
 	// http://www.viaf.org/viaf/96731408/viaf.json
 	getURL := baseViafURL + input + "/viaf.json"
 
 	// call WS & put the response into a []byte
 	b, err := callWS(getURL)
 	if err != nil {
-		log.Fatalln(err)
+		return vData, err
 	}
 
 	// unmarshall
-	var resp ViafData
-	if err := json.Unmarshal(b, &resp); err != nil {
-		return resp, err
+	if err := json.Unmarshal(b, &vData); err != nil {
+		return vData, err
 	}
 
-	return resp, nil
+	return vData, nil
 }
 
 // ViafGetLCN finds a Library of Congress ID

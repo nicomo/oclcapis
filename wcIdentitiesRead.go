@@ -2,7 +2,8 @@ package oclcapis
 
 import (
 	"encoding/xml"
-	"log"
+	"errors"
+	"fmt"
 )
 
 // WCIdentity stores the unmarshalled result
@@ -71,19 +72,25 @@ const baseWCIdentitiesURL = "http://www.worldcat.org/identities/"
 // WCIdentitiesRead calls the WorldCat Identities web service
 // for a given LC number (i.e. authority number)
 func WCIdentitiesRead(input string) (WCIdentity, error) {
-	// http://www.worldcat.org/identities/lccn-n2009050322/
+	// will store the result
+	var wci WCIdentity
+
+	if input == "" {
+		return wci, errors.New("input cannot be an empty string")
+	}
+
+	// e.g. http://www.worldcat.org/identities/lccn-n2009050322/
 	getURL := baseWCIdentitiesURL + input + "/"
 
 	// call WS & put the response into a []byte
 	b, err := callWS(getURL)
 	if err != nil {
-		log.Fatalln(err)
+		return wci, err
 	}
 
 	// unmarshall
-	var wci WCIdentity
 	if err := xml.Unmarshal(b, &wci); err != nil {
-		log.Fatal(err)
+		return wci, fmt.Errorf("could not unmarshall response: %v", err)
 	}
 
 	return wci, nil

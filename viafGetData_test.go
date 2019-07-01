@@ -75,6 +75,11 @@ func TestViafGetData(t *testing.T) {
 			},
 			ShouldFail: false,
 		},
+		{
+			Input:      "",
+			Expected:   ViafData{},
+			ShouldFail: true,
+		},
 	}
 
 	for _, test := range viafDataTests {
@@ -101,6 +106,11 @@ func TestViafGetLCN(t *testing.T) {
 			Expected:   "n2009050322",
 			ShouldFail: false,
 		},
+		{
+			Input:      "",
+			Expected:   "",
+			ShouldFail: true,
+		},
 	}
 	for _, test := range viafLCNTests {
 		actual, err := ViafGetLCN(test.Input)
@@ -125,6 +135,11 @@ func TestViafGetWKP(t *testing.T) {
 			Input:      "96731408", // JM BONNISSEAU
 			Expected:   "Q30084598",
 			ShouldFail: false,
+		},
+		{
+			Input:      "",
+			Expected:   "",
+			ShouldFail: true,
 		},
 	}
 	for _, test := range viafWKPTests {
@@ -158,6 +173,11 @@ func TestViafGetIDs(t *testing.T) {
 				"DNB":   "http://d-nb.info/gnd/170346412",
 			},
 			ShouldFail: false,
+		},
+		{
+			Input:      "",
+			Expected:   nil,
+			ShouldFail: true,
 		},
 	}
 	for _, test := range viafGetIDsTests {

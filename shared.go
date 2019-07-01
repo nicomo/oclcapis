@@ -1,6 +1,7 @@
 package oclcapis
 
 import (
+	"fmt"
 	"io/ioutil"
 	"net/http"
 )
@@ -13,12 +14,15 @@ func callWS(getURL string) ([]byte, error) {
 	if err != nil {
 		return []byte{}, err
 	}
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("HTTP Status not OK: %d %s", resp.StatusCode, resp.Status)
+	}
 
 	// put the response into a []byte
 	b, err := ioutil.ReadAll(resp.Body)
 	resp.Body.Close()
 	if err != nil {
-		return []byte{}, err
+		return nil, err
 	}
 
 	return b, nil

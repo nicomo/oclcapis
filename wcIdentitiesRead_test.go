@@ -6,15 +6,17 @@ import (
 )
 
 type wcIdentityTest struct {
-	Input      string
-	Expected   WCIdentity
-	ShouldFail bool
+	Description string
+	Input       string
+	Expected    WCIdentity
+	ShouldFail  bool
 }
 
 func TestWCIdentitiesRead(t *testing.T) {
 	var wcIdentityTests = []wcIdentityTest{
 		{
-			Input: "lccn-n2009050322", // JM BONNISSEAU
+			Description: "Valid, JM BONNISSEAU",
+			Input:       "lccn-n2009050322",
 			Expected: WCIdentity{
 				Pnkey: "lccn-n2009050322",
 				AudLevel: AudLevel{
@@ -136,6 +138,18 @@ func TestWCIdentitiesRead(t *testing.T) {
 				},
 			},
 			ShouldFail: false,
+		},
+		{
+			Description: "Returns 404, resource does not exist",
+			Input:       "CGU898765",
+			Expected:    WCIdentity{},
+			ShouldFail:  true,
+		},
+		{
+			Description: "Invalid input",
+			Input:       "",
+			Expected:    WCIdentity{},
+			ShouldFail:  true,
 		},
 	}
 
