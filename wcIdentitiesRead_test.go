@@ -1,0 +1,158 @@
+package oclcapis
+
+import (
+	"reflect"
+	"testing"
+)
+
+type wcIdentityTest struct {
+	Input      string
+	Expected   WCIdentity
+	ShouldFail bool
+}
+
+func TestWCIdentitiesRead(t *testing.T) {
+	var wcIdentityTests = []wcIdentityTest{
+		{
+			Input: "lccn-n2009050322", // JM BONNISSEAU
+			Expected: WCIdentity{
+				Pnkey: "lccn-n2009050322",
+				AudLevel: AudLevel{
+					Avg: Avg{
+						Text:  "",
+						Level: "0.92",
+					},
+				},
+				NameInfo: NameInfo{
+					Type: "personal",
+					RawName: RawName{
+						Suba: "Bonnisseau, Jean-Marc",
+					},
+					Languages: Languages{
+						Count: "2",
+						Lang: []Lang{
+							{
+								Code:  "eng",
+								Count: "25",
+							},
+							{
+								Code:  "fre",
+								Count: "7",
+							},
+						},
+					},
+					BirthDate: "1957",
+					Dates: Dates{
+						Date: []Date{
+							{
+								Text:  "1985",
+								Count: "1",
+							},
+							{
+								Text:  "1986",
+								Count: "6",
+							},
+							{
+								Text:  "1987",
+								Count: "5",
+							},
+							{
+								Text:  "1988",
+								Count: "9",
+							},
+							{
+								Text:  "1990",
+								Count: "1",
+							},
+							{
+								Text:  "1992",
+								Count: "1",
+							},
+							{
+								Text:  "1994",
+								Count: "1",
+							},
+							{
+								Text:  "1995",
+								Count: "1",
+							},
+							{
+								Text:  "1996",
+								Count: "1",
+							},
+							{
+								Text:  "1997",
+								Count: "4",
+							},
+							{
+								Text:  "1998",
+								Count: "2",
+							},
+							{
+								Text:  "2000",
+								Count: "4",
+							},
+							{
+								Text:  "2001",
+								Count: "1",
+							},
+							{
+								Text:  "2005",
+								Count: "1",
+							},
+							{
+								Text:  "2007",
+								Count: "3",
+							},
+							{
+								Text:  "2008",
+								Count: "1",
+							},
+							{
+								Text:  "2012",
+								Count: "1",
+							},
+							{
+								Text:  "2013",
+								Count: "4",
+							},
+							{
+								Text:  "2015",
+								Count: "1",
+							},
+							{
+								Text:  "2016",
+								Count: "1",
+							},
+							{
+								Text:  "2018",
+								Count: "1",
+							},
+						},
+					},
+					TotalHoldings: "72",
+					WorkCount:     "38",
+					RecordCount:   "50",
+				},
+			},
+			ShouldFail: false,
+		},
+	}
+
+	for _, test := range wcIdentityTests {
+		actual, err := WCIdentitiesRead(test.Input)
+		if err != nil {
+			if test.ShouldFail {
+				t.Logf("PASS: got expected error %v", err)
+			} else {
+				t.Fatalf("FAIL for %s: expected %v, got an error %v", test.Input, test.Expected, err)
+			}
+		}
+		if reflect.DeepEqual(test.Expected, actual) {
+			t.Logf("PASS: got %v", test.Expected)
+		} else {
+			t.Fatalf("FAIL for %s: expected %v, actual result was %+v", test.Input, test.Expected, actual)
+		}
+	}
+
+}
