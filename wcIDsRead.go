@@ -69,9 +69,9 @@ type Date struct {
 
 const baseWCIdentitiesURL = "http://www.worldcat.org/identities/"
 
-// WCIdentitiesRead calls the WorldCat Identities web service
+// WCIDsRead calls the WorldCat Identities web service
 // for a given LC number (i.e. authority number)
-func WCIdentitiesRead(input string) (WCIdentity, error) {
+func WCIDsRead(input string) (WCIdentity, error) {
 	// will store the result
 	var wci WCIdentity
 

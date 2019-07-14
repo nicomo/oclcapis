@@ -7,11 +7,11 @@ import (
 	"strings"
 )
 
-// ViafTranslateSourceID takes an ID from an external source
+// ViafTranslate takes an ID from an external source
 // e.g. DNB, Sudoc, etc
 // and retrieves the corresponding VIAF ID
 // the input should be an url encoded string, e.g. SUDOC%7c033522448
-func ViafTranslateSourceID(input string) (string, error) {
+func ViafTranslate(input string) (string, error) {
 	if input == "" {
 		return "", errors.New("input cannot be an empty string")
 	}

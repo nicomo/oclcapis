@@ -15,7 +15,7 @@ This project is experimental/personal, use at your own risk.
 - ViafGetIDs finds all other sources IDs, e.g. LC, DNB, WKP, etc. from a VIAF ID
 - ViafGetLCN finds a Library of Congress ID from a VIAF ID
 - ViafGetWKP finds a Wikidata ID from a VIAF ID
-- WCIdentitiesRead uses the [WorldCatIdentitiesRead](https://platform.worldcat.org/api-explorer/apis/worldcatidentities/identity/Read) web service: Read a single identity record in WorldCat Identities, for example <http://www.worldcat.org/identities/lccn-n79032879/>. _Partial: does not return citations._
+- WCIDsRead uses the [WorldCatIdentitiesRead](https://platform.worldcat.org/api-explorer/apis/worldcatidentities/identity/Read) web service: Read a single identity record in WorldCat Identities, for example <http://www.worldcat.org/identities/lccn-n79032879/>. _Partial: does not return citations._
 - [ViafTranslateSourceID](https://platform.worldcat.org/api-explorer/apis/VIAF/AuthorityCluster/TranslateSourceID): Translate a SourceID (identifier for an original source record at a specific institution) to a VIAF URI. For instance _/viaf/sourceID/DNB%7c1034425390_
 
 ## Not covered

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strings"
 )
 
 // call performs the http GET
@@ -26,4 +27,13 @@ func callWS(getURL string) ([]byte, error) {
 	}
 
 	return b, nil
+}
+
+// viaf
+func viafSplitSourceID(sText string) string {
+	t := strings.Split(sText, "|")
+	if len(t) != 2 {
+		return ""
+	}
+	return t[0]
 }

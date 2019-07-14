@@ -11,24 +11,6 @@ type viafGetDataTest struct {
 	ShouldFail bool
 }
 
-type viafGetLCNTest struct {
-	Input      string
-	Expected   string
-	ShouldFail bool
-}
-
-type viafGetWKPTest struct {
-	Input      string
-	Expected   string
-	ShouldFail bool
-}
-
-type viafGetIDsTest struct {
-	Input      string
-	Expected   map[string]string
-	ShouldFail bool
-}
-
 func TestViafGetData(t *testing.T) {
 
 	var viafDataTests = []viafGetDataTest{
@@ -84,104 +66,6 @@ func TestViafGetData(t *testing.T) {
 
 	for _, test := range viafDataTests {
 		actual, err := viafGetData(test.Input)
-		if err != nil {
-			if test.ShouldFail {
-				t.Logf("PASS: got expected error %v", err)
-			} else {
-				t.Fatalf("FAIL for %s: expected %v, got an error %v", test.Input, test.Expected, err)
-			}
-		}
-		if reflect.DeepEqual(test.Expected, actual) {
-			t.Logf("PASS: got %v", test.Expected)
-		} else {
-			t.Fatalf("FAIL for %s: expected %v, actual result was %v", test.Input, test.Expected, actual)
-		}
-	}
-}
-
-func TestViafGetLCN(t *testing.T) {
-	var viafLCNTests = []viafGetLCNTest{
-		{
-			Input:      "96731408", // JM BONNISSEAU
-			Expected:   "n2009050322",
-			ShouldFail: false,
-		},
-		{
-			Input:      "",
-			Expected:   "",
-			ShouldFail: true,
-		},
-	}
-	for _, test := range viafLCNTests {
-		actual, err := ViafGetLCN(test.Input)
-		if err != nil {
-			if test.ShouldFail {
-				t.Logf("PASS: got expected error %v", err)
-			} else {
-				t.Fatalf("FAIL for %s: expected %v, got an error %v", test.Input, test.Expected, err)
-			}
-		}
-		if reflect.DeepEqual(test.Expected, actual) {
-			t.Logf("PASS: got %v", test.Expected)
-		} else {
-			t.Fatalf("FAIL for %s: expected %v, actual result was %v", test.Input, test.Expected, actual)
-		}
-	}
-}
-
-func TestViafGetWKP(t *testing.T) {
-	var viafWKPTests = []viafGetWKPTest{
-		{
-			Input:      "96731408", // JM BONNISSEAU
-			Expected:   "Q30084598",
-			ShouldFail: false,
-		},
-		{
-			Input:      "",
-			Expected:   "",
-			ShouldFail: true,
-		},
-	}
-	for _, test := range viafWKPTests {
-		actual, err := ViafGetWKP(test.Input)
-		if err != nil {
-			if test.ShouldFail {
-				t.Logf("PASS: got expected error %v", err)
-			} else {
-				t.Fatalf("FAIL for %s: expected %v, got an error %v", test.Input, test.Expected, err)
-			}
-		}
-		if reflect.DeepEqual(test.Expected, actual) {
-			t.Logf("PASS: got %v", test.Expected)
-		} else {
-			t.Fatalf("FAIL for %s: expected %v, actual result was %v", test.Input, test.Expected, actual)
-		}
-	}
-}
-
-func TestViafGetIDs(t *testing.T) {
-	var viafGetIDsTests = []viafGetIDsTest{
-		{
-			Input: "96731408", // JM BONNISSEAU
-			Expected: map[string]string{
-				"SUDOC": "033522448",
-				"ISNI":  "0000000068442789",
-				"WKP":   "Q30084598",
-				"LC":    "n2009050322",
-				"BNF":   "http://catalogue.bnf.fr/ark:/12148/cb12438130w",
-				"RERO":  "vtls008694187",
-				"DNB":   "http://d-nb.info/gnd/170346412",
-			},
-			ShouldFail: false,
-		},
-		{
-			Input:      "",
-			Expected:   nil,
-			ShouldFail: true,
-		},
-	}
-	for _, test := range viafGetIDsTests {
-		actual, err := ViafGetIDs(test.Input)
 		if err != nil {
 			if test.ShouldFail {
 				t.Logf("PASS: got expected error %v", err)

@@ -5,14 +5,14 @@ import (
 	"testing"
 )
 
-type viafTranslateSourceIDTest struct {
+type viafTranslateTest struct {
 	Input      string
 	Expected   string
 	ShouldFail bool
 }
 
-func TestViafTranslateSourceID(t *testing.T) {
-	var viafTranslateTests = []viafTranslateSourceIDTest{
+func TestViafTranslate(t *testing.T) {
+	var viafTranslateTests = []viafTranslateTest{
 		{
 			Input:      "",
 			Expected:   "",
@@ -31,7 +31,7 @@ func TestViafTranslateSourceID(t *testing.T) {
 	}
 
 	for _, test := range viafTranslateTests {
-		actual, err := ViafTranslateSourceID(test.Input)
+		actual, err := ViafTranslate(test.Input)
 		if err != nil {
 			if test.ShouldFail {
 				t.Logf("PASS: got expected error %v", err)
