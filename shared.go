@@ -15,21 +15,22 @@ func callWS(getURL string) ([]byte, error) {
 	if err != nil {
 		return []byte{}, err
 	}
+	defer resp.Body.Close()
+
 	if resp.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("HTTP Status not OK: %d %s", resp.StatusCode, resp.Status)
 	}
 
 	// put the response into a []byte
 	b, err := ioutil.ReadAll(resp.Body)
-	resp.Body.Close()
 	if err != nil {
 		return nil, err
 	}
-
 	return b, nil
 }
 
-// viaf
+// viafSplitSourceID separates the DNC or SUDOC, etc
+// from the actual value
 func viafSplitSourceID(sText string) string {
 	t := strings.Split(sText, "|")
 	if len(t) != 2 {
