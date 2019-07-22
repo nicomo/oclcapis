@@ -31,10 +31,14 @@ func callWS(getURL string) ([]byte, error) {
 
 // viafSplitSourceID separates the DNC or SUDOC, etc
 // from the actual value
-func viafSplitSourceID(sText string) string {
+func viafSplitSourceID(sText string) (SourceID, error) {
+	var srcID SourceID
 	t := strings.Split(sText, "|")
 	if len(t) != 2 {
-		return ""
+		return srcID, fmt.Errorf("could not properly split source id %s", sText)
 	}
-	return t[0]
+	srcID.Src = t[0]
+	// remove whitespaces in ID
+	srcID.SrcID = strings.Join(strings.Fields(t[1]), "")
+	return srcID, nil
 }

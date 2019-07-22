@@ -15,15 +15,11 @@ func ViafGetIDs(input string) (map[string]string, error) {
 	if err != nil {
 		return nil, fmt.Errorf("could not get a valid response for %s: %v", input, err)
 	}
-
+	fmt.Println(data)
 	result := map[string]string{}
 
-	for _, source := range data.Sources.Source {
-		s := viafSplitSourceID(source.Text)
-		if s == "" {
-			continue
-		}
-		result[s] = source.Nsid
+	for _, source := range data.SourceIDs {
+		result[source.Src] = source.SrcID
 	}
 	return result, nil
 }

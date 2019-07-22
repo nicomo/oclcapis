@@ -16,12 +16,11 @@ func ViafGetLCN(input string) (string, error) {
 		return "", fmt.Errorf("could not get a valid response for %s: %v", input, err)
 	}
 
-	for _, source := range data.Sources.Source {
-		s := viafSplitSourceID(source.Text)
-		if s == "" || s != "LC" {
+	for _, src := range data.SourceIDs {
+		if src.Src != "LC" {
 			continue
 		}
-		return source.Nsid, nil
+		return src.SrcID, nil
 	}
 	return "", fmt.Errorf("could not find a LC Number for %s", input)
 }
