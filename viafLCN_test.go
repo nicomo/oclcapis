@@ -6,32 +6,44 @@ import (
 )
 
 type viafGetLCNTest struct {
-	Input      string
-	Expected   string
-	ShouldFail bool
+	Description string
+	Input       string
+	Expected    string
+	ShouldFail  bool
+}
+
+type viafGetLCNsTest struct {
+	Description string
+	Input       []string
+	Expected    map[string]string
+	ShouldFail  bool
 }
 
 var viafLCNTests = []viafGetLCNTest{
 	{
-		Input:      "96731408", // JM BONNISSEAU
-		Expected:   "n2009050322",
-		ShouldFail: false,
-	},
+		Description: "happy path, JM BONNISSEAU",
+		Input:       "96731408",
+		Expected:    "n2009050322",
+		ShouldFail:  false,
+	}, /*
+		{
+			Description: "fail for N MORIN, NO RESULT",
+			Input:       "213067771",
+			Expected:    "",
+			ShouldFail:  true,
+		},*/
 	{
-		Input:      "213067771", // N MORIN, NO RESULT
-		Expected:   "",
-		ShouldFail: true,
-	},
-	{
-		Input:      "101833644", // C. BROOKE-ROSE
-		Expected:   "n50048876",
-		ShouldFail: false,
-	},
-	{
-		Input:      "", // WRONG INPUT
-		Expected:   "",
-		ShouldFail: true,
-	},
+		Description: "happy path, C. BROOKE-ROSE",
+		Input:       "101833644",
+		Expected:    "n50048876",
+		ShouldFail:  false,
+	}, /*
+		{
+			Description: "Empty string, wrong input",
+			Input:       "",
+			Expected:    "",
+			ShouldFail:  true,
+		},*/
 }
 
 func TestViafGetLCN(t *testing.T) {
@@ -51,4 +63,34 @@ func TestViafGetLCN(t *testing.T) {
 			t.Fatalf("FAIL for %s: expected %v, actual result was %v", test.Input, test.Expected, actual)
 		}
 	}
+}
+
+func TestViafGetLCNs(t *testing.T) {
+
+	test := viafGetLCNsTest{
+		Description: "Concurrent fetching of LCNs",
+		Input:       []string{},
+		Expected:    make(map[string]string),
+		ShouldFail:  false,
+	}
+
+	for _, v := range viafLCNTests {
+		test.Input = append(test.Input, v.Input)
+		test.Expected[v.Input] = v.Expected
+	}
+
+	actual, err := ViafGetLCNs(test.Input)
+	if err != nil {
+		if test.ShouldFail {
+			t.Logf("PASS %s: got expected error %v", test.Description, err)
+		} else {
+			t.Fatalf("FAIL %s (input was %s): expected %v, got error %v", test.Description, test.Input, test.Expected, err)
+		}
+	}
+	if reflect.DeepEqual(test.Expected, actual) {
+		t.Logf("PASS %s", test.Description)
+	} else {
+		t.Fatalf("FAIL %s (input was %s): expected %v, actual result was %v", test.Description, test.Input, test.Expected, actual)
+	}
+
 }
