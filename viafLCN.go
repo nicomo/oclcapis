@@ -21,7 +21,7 @@ func ViafGetLCN(input string) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("could not get a valid response for %s: %v", input, err)
 	}
-	fmt.Printf("data SourceIDs: %+v\n", data.SourceIDs)
+
 	for _, src := range data.SourceIDs {
 		if src.Src != "LC" {
 			continue
@@ -39,6 +39,7 @@ func ViafGetLCNs(input []string) (map[string]string, error) {
 	// 2 channels used in a fan out / fan in pattern
 	jobs := make(chan string, len(input))
 	results := make(chan lcnResult, len(input))
+	defer close(results)
 
 	// dispatch jobs to number of workers, capping at 5
 	numW := 5
@@ -61,7 +62,7 @@ func ViafGetLCNs(input []string) (map[string]string, error) {
 
 	// fan in the results from the results channel
 	var res []lcnResult
-	for a := 1; a <= numW; a++ {
+	for i := 1; i <= numW; i++ {
 		res = append(res, <-results)
 	}
 
@@ -70,6 +71,9 @@ func ViafGetLCNs(input []string) (map[string]string, error) {
 	m := make(map[string]string)
 	for _, r := range res {
 		if r.err != nil {
+			if len(r.input) == 0 {
+				continue
+			}
 			m[r.input] = fmt.Sprintln(r.err)
 			continue
 		}
@@ -89,18 +93,11 @@ func lcnWorker(id int, jobs <-chan string, results chan<- lcnResult) {
 		fmt.Printf("worker %d, job: %s\n", id, s)
 		output, err := ViafGetLCN(s)
 		fmt.Printf("worker %d, output: %s (err %v)\n", id, output, err)
-		if err != nil {
-			results <- lcnResult{
-				input:  s,
-				output: "",
-				err:    err,
-			}
-		}
 
 		results <- lcnResult{
 			input:  s,
 			output: output,
-			err:    nil,
+			err:    err,
 		}
 	}
 }

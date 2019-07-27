@@ -25,25 +25,25 @@ var viafLCNTests = []viafGetLCNTest{
 		Input:       "96731408",
 		Expected:    "n2009050322",
 		ShouldFail:  false,
-	}, /*
-		{
-			Description: "fail for N MORIN, NO RESULT",
-			Input:       "213067771",
-			Expected:    "",
-			ShouldFail:  true,
-		},*/
+	},
+	{
+		Description: "fail, no result",
+		Input:       "213067771",
+		Expected:    "",
+		ShouldFail:  true,
+	},
 	{
 		Description: "happy path, C. BROOKE-ROSE",
 		Input:       "101833644",
 		Expected:    "n50048876",
 		ShouldFail:  false,
-	}, /*
-		{
-			Description: "Empty string, wrong input",
-			Input:       "",
-			Expected:    "",
-			ShouldFail:  true,
-		},*/
+	},
+	{
+		Description: "fail, empty input",
+		Input:       "",
+		Expected:    "",
+		ShouldFail:  true,
+	},
 }
 
 func TestViafGetLCN(t *testing.T) {
@@ -69,15 +69,17 @@ func TestViafGetLCNs(t *testing.T) {
 
 	test := viafGetLCNsTest{
 		Description: "Concurrent fetching of LCNs",
-		Input:       []string{},
-		Expected:    make(map[string]string),
-		ShouldFail:  false,
+		Input: []string{
+			"96731408",
+			"213067771",
+			"101833644",
+		},
+		Expected:   make(map[string]string),
+		ShouldFail: false,
 	}
-
-	for _, v := range viafLCNTests {
-		test.Input = append(test.Input, v.Input)
-		test.Expected[v.Input] = v.Expected
-	}
+	test.Expected["96731408"] = "n2009050322"
+	test.Expected["213067771"] = "could not find a LC Number for 213067771\n"
+	test.Expected["101833644"] = "n50048876"
 
 	actual, err := ViafGetLCNs(test.Input)
 	if err != nil {
