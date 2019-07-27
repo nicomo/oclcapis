@@ -31,7 +31,7 @@ func ViafTranslate(input string) (string, error) {
 		return "", err
 	}
 	if resp.StatusCode != http.StatusMovedPermanently {
-		return "", fmt.Errorf("Could not translate %s: %s", input, resp.Status)
+		return "", fmt.Errorf("could not translate %s: %s", input, resp.Status)
 	}
 
 	loc, err := resp.Location()
@@ -41,4 +41,16 @@ func ViafTranslate(input string) (string, error) {
 
 	return strings.TrimPrefix(loc.Path, "/viaf/"), nil
 
+}
+
+// ViafTranslateBatch takes a string of IDs from external sources
+// e.g. DNB, Sudoc, etc
+// and retrieves the corresponding VIAF IDs
+// the input should be an url encoded string, e.g. SUDOC%7c033522448
+func ViafTranslateBatch(input []string) (map[string]string, error) {
+	m, err := batchID("translate", input)
+	if err != nil {
+		return nil, err
+	}
+	return m, nil
 }
