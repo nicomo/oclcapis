@@ -6,37 +6,87 @@ import (
 )
 
 type viafGetWKPTest struct {
-	Input      string
-	Expected   string
-	ShouldFail bool
+	Description string
+	Input       string
+	Expected    string
+	ShouldFail  bool
+}
+
+type viafGetWKPsTest struct {
+	Description string
+	Input       []string
+	Expected    map[string]string
+	ShouldFail  bool
 }
 
 func TestViafGetWKP(t *testing.T) {
-	var viafWKPTests = []viafGetWKPTest{
+
+	viafWKPTests := []viafGetWKPTest{
 		{
-			Input:      "96731408", // JM BONNISSEAU
-			Expected:   "Q30084598",
-			ShouldFail: false,
+			Description: "JM BONNISSEAU",
+			Input:       "96731408",
+			Expected:    "Q30084598",
+			ShouldFail:  false,
 		},
 		{
-			Input:      "",
-			Expected:   "",
-			ShouldFail: true,
+			Description: "empty input",
+			Input:       "",
+			Expected:    "",
+			ShouldFail:  true,
+		},
+		{
+			Description: "no result",
+			Input:       "213067771",
+			Expected:    "",
+			ShouldFail:  true,
+		},
+		{
+			Description: "C. BROOKE-ROSE",
+			Input:       "101833644",
+			Expected:    "Q440528",
+			ShouldFail:  false,
 		},
 	}
 	for _, test := range viafWKPTests {
 		actual, err := ViafGetWKP(test.Input)
 		if err != nil {
 			if test.ShouldFail {
-				t.Logf("PASS: got expected error %v", err)
+				t.Logf("PASS %s: got expected error %v", test.Description, err)
 			} else {
-				t.Fatalf("FAIL for %s: expected %v, got an error %v", test.Input, test.Expected, err)
+				t.Fatalf("FAIL %s (input was %s): expected %v, got error %v", test.Description, test.Input, test.Expected, err)
 			}
 		}
 		if reflect.DeepEqual(test.Expected, actual) {
-			t.Logf("PASS: got %v", test.Expected)
+			t.Logf("PASS %s", test.Description)
 		} else {
-			t.Fatalf("FAIL for %s: expected %v, actual result was %v", test.Input, test.Expected, actual)
+			t.Fatalf("FAIL %s (input was %s): expected %v, actual result was %v", test.Description, test.Input, test.Expected, actual)
 		}
+	}
+}
+
+func TestViafGetWKPs(t *testing.T) {
+
+	test := viafGetWKPsTest{
+		Description: "Concurrent fetching of WKPs",
+		Input: []string{
+			"96731408",
+		},
+		Expected:   make(map[string]string),
+		ShouldFail: false,
+	}
+	test.Expected["96731408"] = "Q30084598"
+
+	actual, err := ViafGetWKPs(test.Input)
+	if err != nil {
+		if test.ShouldFail {
+			t.Logf("PASS %s: got expected error %v", test.Description, err)
+		} else {
+			t.Fatalf("FAIL %s (input was %s): expected %v, got error %v", test.Description, test.Input, test.Expected, err)
+		}
+	}
+	if reflect.DeepEqual(test.Expected, actual) {
+		t.Logf("PASS %s", test.Description)
+	} else {
+		t.Fatalf("FAIL %s (input was %s): expected %v, actual result was %v", test.Description, test.Input, test.Expected, actual)
 	}
 }
