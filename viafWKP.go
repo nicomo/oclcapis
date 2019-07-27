@@ -30,7 +30,7 @@ func ViafGetWKP(input string) (string, error) {
 // ViafGetWKPs finds Wikidata IDs
 // from a slice of VIAF IDs in batches
 func ViafGetWKPs(input []string) (map[string]string, error) {
-	m, err := getViafBatch("wkp", input)
+	m, err := batchID("wkp", input)
 	if err != nil {
 		return nil, err
 	}
