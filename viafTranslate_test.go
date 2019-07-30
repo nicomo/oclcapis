@@ -72,7 +72,7 @@ func TestViafTranslateBatch(t *testing.T) {
 		ShouldFail: false,
 	}
 	test.Expected["SUDOC%7c033522448"] = "96731408"
-	test.Expected["NoResultString"] = "could not translate NoResultString: 404 Not Found\n"
+	test.Expected["NoResultString"] = "could not translate NoResultString: 404 Not Found"
 
 	actual, err := ViafTranslateBatch(test.Input)
 	if err != nil {

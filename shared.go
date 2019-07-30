@@ -91,7 +91,7 @@ func batchID(service string, input []string) (map[string]string, error) {
 			if len(r.input) == 0 {
 				continue
 			}
-			m[r.input] = fmt.Sprintln(r.err)
+			m[r.input] = fmt.Sprint(r.err)
 			continue
 		}
 		m[r.input] = r.output

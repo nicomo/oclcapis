@@ -36,7 +36,7 @@ func ViafTranslate(input string) (string, error) {
 
 	loc, err := resp.Location()
 	if err != nil {
-		return "", fmt.Errorf("location URL not found%v", err)
+		return "", fmt.Errorf("location URL not found: %v", err)
 	}
 
 	return strings.TrimPrefix(loc.Path, "/viaf/"), nil
