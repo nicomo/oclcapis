@@ -59,13 +59,13 @@ func batchID(service string, input []string) (map[string]string, error) {
 	results := make(chan batchResult, len(input))
 	defer close(results)
 
-	// number of workers, capping at 5
-	numW := 5
-	if len(input) < 5 {
+	// number of workers, capping at 50
+	numW := 50
+	if len(input) < numW {
 		numW = len(input)
 	}
 
-	// This starts up to 5 workers, initially blocked
+	// This starts up to n workers, initially blocked
 	// because there are no jobs yet.
 	for w := 1; w <= numW; w++ {
 		go batchIDWorker(w, jobs, results)

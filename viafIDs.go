@@ -45,13 +45,13 @@ func ViafGetAllIDs(input []string) ([]AllIDsResult, error) {
 	results := make(chan AllIDsResult, len(input))
 	defer close(results)
 
-	// dispatch jobs to number of workers, capping at 5
-	numW := 5
-	if len(input) < 5 {
+	// dispatch jobs to number of workers, capping at 50
+	numW := 50
+	if len(input) < numW {
 		numW = len(input)
 	}
 
-	// This starts up to 5 workers, initially blocked
+	// This starts up to n workers, initially blocked
 	// because there are no jobs yet.
 	for w := 1; w <= numW; w++ {
 		go allIDsWorker(w, jobs, results)
