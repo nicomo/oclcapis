@@ -138,7 +138,7 @@ func WCIBatchRead(input []string) ([]WCIReadResult, error) {
 
 	// fan in the results from the results channel
 	var res []WCIReadResult
-	for i := 1; i <= numW; i++ {
+	for i := 1; i <= len(input); i++ {
 		res = append(res, <-results)
 	}
 	if len(res) == 0 {

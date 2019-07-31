@@ -59,7 +59,7 @@ func batchID(service string, input []string) (map[string]string, error) {
 	results := make(chan batchResult, len(input))
 	defer close(results)
 
-	// dispatch jobs to number of workers, capping at 5
+	// number of workers, capping at 5
 	numW := 5
 	if len(input) < 5 {
 		numW = len(input)
@@ -81,7 +81,7 @@ func batchID(service string, input []string) (map[string]string, error) {
 
 	// fan in the results from the results channel
 	var res []batchResult
-	for i := 1; i <= numW; i++ {
+	for i := 1; i <= len(input); i++ {
 		res = append(res, <-results)
 	}
 

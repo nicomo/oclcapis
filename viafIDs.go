@@ -66,7 +66,7 @@ func ViafGetAllIDs(input []string) ([]AllIDsResult, error) {
 
 	// fan in the results from the results channel
 	var res []AllIDsResult
-	for i := 1; i <= numW; i++ {
+	for i := 1; i <= len(input); i++ {
 		res = append(res, <-results)
 	}
 
