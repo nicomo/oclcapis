@@ -123,7 +123,7 @@ func batchIDWorker(id int, jobs <-chan []string, results chan<- batchResult) {
 			br.output = output
 			br.err = err
 		default:
-			br.err = fmt.Errorf("unkown service %s", j[0])
+			br.err = fmt.Errorf("unknown service %s", j[0])
 		}
 
 		results <- br

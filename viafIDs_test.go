@@ -69,7 +69,7 @@ func TestViafGetIDsBatch(t *testing.T) {
 			"",
 		},
 		Expected: []AllIDsResult{
-			AllIDsResult{
+			{
 				input: "96731408",
 				output: map[string]string{
 					"SUDOC": "033522448",
@@ -82,7 +82,7 @@ func TestViafGetIDsBatch(t *testing.T) {
 				},
 				err: nil,
 			},
-			AllIDsResult{
+			{
 				input: "",
 				err:   errors.New("input cannot be an empty string"),
 			},

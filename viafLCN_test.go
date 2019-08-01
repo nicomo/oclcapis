@@ -78,7 +78,7 @@ func TestViafGetLCNs(t *testing.T) {
 		ShouldFail: false,
 	}
 	test.Expected["96731408"] = "n2009050322"
-	test.Expected["213067771"] = "could not find a LC Number for 213067771\n"
+	test.Expected["213067771"] = "could not find a LC Number for 213067771"
 	test.Expected["101833644"] = "n50048876"
 
 	actual, err := ViafGetLCNs(test.Input)
