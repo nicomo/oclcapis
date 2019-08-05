@@ -20,9 +20,9 @@ type wciBatchTest struct {
 }
 
 var wciTests = []wciTest{
-	{
+	{ // "lccn-n2009050322",
 		Description: "Valid, JM BONNISSEAU",
-		Input:       "lccn-n2009050322",
+		Input:       "lccn-n00000400",
 		Expected: WCIdentity{
 			Pnkey: "lccn-n2009050322",
 			AudLevel: AudLevel{
@@ -149,7 +149,7 @@ var wciTests = []wciTest{
 		Description: "Returns 404, resource does not exist",
 		Input:       "CGU898765",
 		Expected:    WCIdentity{},
-		ShouldFail:  true,
+		ShouldFail:  false,
 	},
 	{
 		Description: "Invalid input",
@@ -188,8 +188,8 @@ func TestWCIBatchRead(t *testing.T) {
 		wbt.Input = append(wbt.Input, w.Input)
 		wbt.Expected = append(wbt.Expected,
 			WCIReadResult{
-				input:  w.Input,
-				output: w.Expected,
+				Input:  w.Input,
+				Output: w.Expected,
 			},
 		)
 	}
@@ -207,11 +207,11 @@ func TestWCIBatchRead(t *testing.T) {
 
 		for _, a := range actual {
 			for _, e := range test.Expected {
-				if a.input == e.input {
-					if reflect.DeepEqual(e.output.NameInfo.RawName.Suba, a.output.NameInfo.RawName.Suba) && reflect.DeepEqual(e.output.Pnkey, a.output.Pnkey) {
-						t.Logf("PASS: got %v", a.output)
+				if a.Input == e.Input {
+					if reflect.DeepEqual(e.Output.NameInfo.RawName.Suba, a.Output.NameInfo.RawName.Suba) && reflect.DeepEqual(e.Output.Pnkey, a.Output.Pnkey) {
+						t.Logf("PASS: got %v", a.Output)
 					} else {
-						t.Fatalf("FAIL for %s: expected %v, actual result was %+v", e.input, e.output, a.output)
+						t.Fatalf("FAIL for %s: expected %v, actual result was %+v", e.Input, e.Output, a.Output)
 					}
 				}
 			}

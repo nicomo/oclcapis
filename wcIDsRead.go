@@ -10,9 +10,9 @@ import (
 // and the result in the form
 // WCIdentity, with the error if any
 type WCIReadResult struct {
-	input  string
-	output WCIdentity
-	err    error
+	Input  string
+	Output WCIdentity
+	Err    error
 }
 
 // WCIdentity stores the unmarshalled result
@@ -138,11 +138,8 @@ func WCIBatchRead(input []string) ([]WCIReadResult, error) {
 
 	// fan in the results from the results channel
 	var res []WCIReadResult
-	for i := 1; i <= len(input); i++ {
+	for i := 0; i < len(input); i++ {
 		res = append(res, <-results)
-	}
-	if len(res) == 0 {
-		return res, errors.New("could not find any result")
 	}
 	return res, nil
 }
@@ -152,12 +149,13 @@ func WCIBatchRead(input []string) ([]WCIReadResult, error) {
 // work on the `jobs` channel and send the corresponding
 // results on `results`.
 func wciBatchWorker(id int, jobs <-chan string, results chan<- WCIReadResult) {
+
 	for j := range jobs {
 		output, err := WCIRead(j)
 		results <- WCIReadResult{
-			input:  j,
-			output: output,
-			err:    err,
+			Input:  j,
+			Output: output,
+			Err:    err,
 		}
 	}
 }
