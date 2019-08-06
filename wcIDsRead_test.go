@@ -20,9 +20,9 @@ type wciBatchTest struct {
 }
 
 var wciTests = []wciTest{
-	{ // "lccn-n2009050322",
+	{
 		Description: "Valid, JM BONNISSEAU",
-		Input:       "lccn-n00000400",
+		Input:       "lccn-n2009050322",
 		Expected: WCIdentity{
 			Pnkey: "lccn-n2009050322",
 			AudLevel: AudLevel{
@@ -147,9 +147,9 @@ var wciTests = []wciTest{
 	},
 	{
 		Description: "Returns 404, resource does not exist",
-		Input:       "CGU898765",
+		Input:       "lccn-no201312602",
 		Expected:    WCIdentity{},
-		ShouldFail:  false,
+		ShouldFail:  true,
 	},
 	{
 		Description: "Invalid input",

@@ -24,7 +24,7 @@ func callWS(getURL string) ([]byte, error) {
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("HTTP Status not OK: %d %s", resp.StatusCode, resp.Status)
+		return nil, fmt.Errorf("HTTP Status not OK: %s", resp.Status)
 	}
 
 	// put the response into a []byte

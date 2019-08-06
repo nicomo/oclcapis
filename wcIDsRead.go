@@ -10,9 +10,9 @@ import (
 // and the result in the form
 // WCIdentity, with the error if any
 type WCIReadResult struct {
-	Input  string
-	Output WCIdentity
-	Err    error
+	Input       string
+	Output      WCIdentity
+	ErrorString string
 }
 
 // WCIdentity stores the unmarshalled result
@@ -151,11 +151,13 @@ func WCIBatchRead(input []string) ([]WCIReadResult, error) {
 func wciBatchWorker(id int, jobs <-chan string, results chan<- WCIReadResult) {
 
 	for j := range jobs {
+		res := WCIReadResult{}
 		output, err := WCIRead(j)
-		results <- WCIReadResult{
-			Input:  j,
-			Output: output,
-			Err:    err,
+		if err != nil {
+			res.ErrorString = err.Error()
 		}
+		res.Input = j
+		res.Output = output
+		results <- res
 	}
 }
